@@ -31,6 +31,7 @@ Instale as dependências:
 npm install
 ```
 
+Renomeie o arquivo env.example para .env.
 Configure o arquivo `.env`:
 
 ```
