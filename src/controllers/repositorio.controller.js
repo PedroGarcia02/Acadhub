@@ -141,6 +141,8 @@ async cadastrarDisciplina(req, res) {
 
       const disciplina = req.body;
 
+      const { curso_id } = req.body;
+
       disciplina.semestre = parseInt(disciplina.semestre)
 
       if (!disciplina.nome || !disciplina.semestre || !disciplina.curso_id) {
@@ -160,7 +162,6 @@ async cadastrarDisciplina(req, res) {
 
     } catch (error) {
       console.error("Erro ao cadastrar disciplina:", error);
-      const { curso_id } = req.body;
       const curso = await instituicoesDAO.findCursoById(curso_id);
 
       res.render("repositorio/cadastrarDisciplina", {
@@ -316,9 +317,9 @@ async deletarConteudo(req, res) {
     
     const conteudo = await repositorioDAO.findConteudoById(conteudoId);
 
-    const disciplina = await repositorioDAO.findDisciplinaByMateria(conteudo.materia_id);
-
     if (!conteudo) return res.status(404).send("Conteúdo não encontrado");
+
+    const disciplina = await repositorioDAO.findDisciplinaByMateria(conteudo.materia_id);
 
     if (conteudo.tipo !== 'link' && conteudo.arquivo) {
       const filePath = path.join(__dirname, '../../uploads/conteudos', disciplina.curso_id, conteudo.arquivo);
@@ -550,4 +551,5 @@ async sugerirConteudoIA(req, res) {
 
 
 }
+
 module.exports = repositorioController;
